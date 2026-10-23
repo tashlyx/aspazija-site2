@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Digitāla mājaslapa par latviešu dzejnieci Aspaziju — viņas dzīvi, daiļradi un dzeju.">
+  <title>Aspazija — dzeja, kas meklē brīvību</title>
+  <style>
+    :root {
+      --paper: #f6f1e9;
+      --paper-deep: #eee5d9;
+      --ink: #202c31;
+      --muted: #5e6968;
+      --plum: #642c4c;
+      --plum-deep: #3b1d32;
+      --rose: #d77b80;
+      --rose-pale: #f2d8d6;
+      --gold: #d3aa65;
+      --sage: #c4d0bd;
+      --white: #fffdf8;
+      --line: rgba(32, 44, 49, .14);
+      --shadow: 0 22px 55px rgba(54, 34, 42, .12);
+      --serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      --sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: var(--sans);
+      line-height: 1.68;
+    }
+    a { color: inherit; }
+    a:focus-visible, summary:focus-visible { outline: 3px solid var(--gold); outline-offset: 4px; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(246, 241, 233, .94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-wrap {
+      max-width: 1160px; margin: 0 auto; padding: 12px 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; text-decoration: none; min-width: max-content; }
+    .brand-mark {
+      width: 39px; height: 39px; border-radius: 50%; display: grid; place-items: center;
+      background: var(--plum); color: var(--white); font-family: var(--serif); font-size: 22px; font-style: italic;
+    }
+    .brand-text { font-size: 11px; line-height: 1.2; letter-spacing: .16em; font-weight: 800; }
+    .brand-text span { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; letter-spacing: .18em; font-weight: 600; }
+    nav { display: flex; align-items: center; gap: 21px; overflow-x: auto; }
+    nav a { font-size: 12px; text-decoration: none; color: var(--muted); white-space: nowrap; font-weight: 700; transition: color .2s ease; }
+    nav a:hover { color: var(--plum); }
+    .hero {
+      position: relative; overflow: hidden; color: var(--white);
+      background: radial-gradient(circle at 76% 15%, rgba(215,123,128,.36), transparent 28%),
+                  radial-gradient(circle at 12% 92%, rgba(211,170,101,.16), transparent 34%),
+                  linear-gradient(125deg, var(--plum-deep), #512643 58%, #2d3236);
+    }
+    .hero::before, .hero::after {
+      content: ""; position: absolute; pointer-events: none; border: 1px solid rgba(255,253,248,.14); border-radius: 50%;
+    }
+    .hero::before { width: 530px; height: 530px; right: -120px; top: -200px; }
+    .hero::after { width: 370px; height: 370px; right: -40px; top: -120px; }
+    .hero-inner {
+      max-width: 1160px; margin: 0 auto; padding: 74px 24px 68px;
+      display: grid; grid-template-columns: 1.12fr .88fr; align-items: center; gap: 60px; position: relative; z-index: 1;
+    }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: .2em; font-size: 10px; font-weight: 800; }
+    .eyebrow::before { content: ""; display: block; width: 28px; height: 1px; background: currentColor; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.12; }
+    h1 { margin: 20px 0 10px; font-size: clamp(54px, 8vw, 100px); letter-spacing: -.055em; }
+    .hero-subtitle { max-width: 560px; font-family: var(--serif); font-size: clamp(23px, 3vw, 34px); line-height: 1.28; color: #f2d8d6; margin: 0 0 24px; }
+    .hero-copy > p { max-width: 560px; color: rgba(255,253,248,.8); font-size: 15px; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .btn { display: inline-flex; justify-content: center; align-items: center; padding: 11px 17px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 800; transition: transform .2s ease, background .2s ease; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-light { background: var(--white); color: var(--plum-deep); }
+    .btn-outline { border: 1px solid rgba(255,253,248,.5); color: var(--white); }
+    .portrait-wrap { max-width: 400px; justify-self: center; width: 100%; position: relative; }
+    .portrait-frame { padding: 12px; border: 1px solid rgba(255,253,248,.35); border-radius: 210px 210px 24px 24px; transform: rotate(2deg); background: rgba(255,255,255,.05); box-shadow: 0 30px 80px rgba(0,0,0,.24); }
+    .portrait-frame img { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 22%; border-radius: 190px 190px 15px 15px; filter: sepia(.12) contrast(1.02); background: #c8b8a8; }
+    .portrait-frame.portrait-missing::after { content: "Aspazijas portreta fotogrāfiju neizdevās ielādēt. Attēla avots norādīts sadaļā “Izmantotie avoti”."; display: grid; place-items: center; min-height: 310px; padding: 28px; text-align: center; color: var(--white); font-size: 13px; line-height: 1.6; background: rgba(255,255,255,.04); border-radius: 190px 190px 15px 15px; }
+    .portrait-note { position: absolute; right: -18px; bottom: 24px; width: 176px; padding: 13px 15px; background: var(--paper); color: var(--ink); border-radius: 3px; box-shadow: var(--shadow); transform: rotate(-3deg); font-family: var(--serif); font-size: 13px; line-height: 1.4; }
+    .portrait-note span { display: block; margin-top: 5px; font: 10px var(--sans); color: var(--muted); }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 23px; margin-top: 39px; padding-top: 19px; border-top: 1px solid rgba(255,253,248,.2); }
+    .hero-meta strong { display: block; font-family: var(--serif); font-weight: 500; font-size: 22px; color: var(--gold); line-height: 1.25; }
+    .hero-meta span { display: block; font-size: 10px; color: rgba(255,253,248,.66); letter-spacing: .08em; text-transform: uppercase; }
+    main { max-width: 1160px; padding: 0 24px; margin: 0 auto; }
+    section { padding: 82px 0; border-bottom: 1px solid var(--line); }
+    .section-head { display: grid; grid-template-columns: .65fr 1.35fr; gap: 40px; align-items: end; margin-bottom: 37px; }
+    .section-number { color: var(--plum); font: italic 20px var(--serif); }
+    .section-title { margin: 6px 0 0; font-size: clamp(34px, 4.2vw, 52px); letter-spacing: -.035em; }
+    .section-intro { max-width: 650px; color: var(--muted); font-size: 14px; margin: 0; }
+    .bio-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+    .bio-copy p { margin-top: 0; }
+    .pullquote { margin: 0; padding: 28px; border-left: 3px solid var(--rose); background: #fbf7f0; font: italic 25px/1.38 var(--serif); color: var(--plum); }
+    .pullquote cite { display: block; margin-top: 15px; font: 10px var(--sans); color: var(--muted); font-style: normal; letter-spacing: .12em; text-transform: uppercase; }
+    .timeline { margin: 28px 0 0; padding: 0; list-style: none; position: relative; }
+    .timeline::before { content: ""; position: absolute; left: 9px; top: 9px; bottom: 10px; width: 1px; background: #d7b0ad; }
+    .timeline li { display: grid; grid-template-columns: 102px 1fr; gap: 18px; position: relative; padding: 0 0 25px 31px; }
+    .timeline li::before { content: ""; position: absolute; left: 3px; top: 7px; width: 13px; height: 13px; border-radius: 50%; background: var(--rose); border: 3px solid var(--paper); box-shadow: 0 0 0 1px var(--rose); }
+    .timeline time { color: var(--plum); font-weight: 800; font-size: 12px; }
+    .timeline h3 { font-size: 20px; margin: -3px 0 5px; }
+    .timeline p { color: var(--muted); margin: 0; font-size: 13px; }
+    .theme-grid { margin-top: 35px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .theme-card { min-height: 195px; padding: 23px; background: var(--white); border: 1px solid var(--line); border-radius: 14px; }
+    .theme-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; background: var(--rose-pale); color: var(--plum); font: italic 18px var(--serif); margin-bottom: 20px; }
+    .theme-card h3 { margin: 0 0 8px; font-size: 22px; }
+    .theme-card p { color: var(--muted); font-size: 13px; margin: 0; }
+    .works-section { margin: 0 -24px; padding: 78px 24px 83px; background: var(--paper-deep); border-bottom: 1px solid var(--line); }
+    .works-inner { max-width: 1112px; margin: 0 auto; }
+    .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+    .work-card { position: relative; overflow: hidden; padding: 23px 22px 20px; border-radius: 8px; min-height: 205px; background: var(--white); border: 1px solid rgba(32,44,49,.08); }
+    .work-card::after { content: "✳"; position: absolute; right: 12px; top: 4px; color: rgba(100,44,76,.12); font-size: 67px; line-height: 1; }
+    .work-year { display: inline-block; color: var(--plum); letter-spacing: .13em; font-size: 10px; font-weight: 900; text-transform: uppercase; }
+    .work-card h3 { position: relative; z-index: 1; margin: 13px 0 10px; font-size: 24px; }
+    .work-card p { color: var(--muted); font-size: 12px; margin: 0; max-width: 290px; }
+    .poem-topline { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 0 0 20px; }
+    .poem-topline p { font-size: 12px; color: var(--muted); margin: 0; }
+    .poem-count { padding: 7px 12px; border-radius: 999px; background: var(--rose-pale); color: var(--plum); font-size: 10px; letter-spacing: .08em; font-weight: 900; white-space: nowrap; }
+    .poem-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; align-items: start; }
+    .poem-card { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 24px; }
+    .poem-card:last-child { grid-column: 1 / -1; }
+    .poem-kicker { color: var(--rose); font-size: 10px; letter-spacing: .16em; font-weight: 900; text-transform: uppercase; }
+    .poem-card h3 { font-size: 26px; margin: 6px 0 9px; }
+    .poem-card .why { color: var(--muted); font-size: 12px; margin: 0 0 16px; }
+    details { border-top: 1px solid var(--line); }
+    summary { padding: 13px 0 0; cursor: pointer; list-style: none; color: var(--plum); font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; font: 22px var(--serif); color: var(--rose); }
+    details[open] summary::after { content: "−"; }
+    .verse { padding: 19px 2px 0; white-space: pre-line; font: 16px/1.72 var(--serif); color: #354045; }
+    .mini-note { margin-top: 23px; padding: 18px 20px; background: #e9eee5; border-radius: 10px; color: #39483d; font-size: 12px; }
+    .source-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 22px; padding: 0; list-style: none; }
+    .source-list li { border-bottom: 1px solid var(--line); padding: 0 0 10px; font-size: 12px; color: var(--muted); }
+    .source-list a { color: var(--plum); font-weight: 750; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .source-list a:hover { color: #9a4d65; }
+    .source-list span { display: block; font-size: 11px; margin-top: 3px; }
+    footer { background: var(--plum-deep); color: rgba(255,253,248,.76); padding: 27px 24px; text-align: center; font-size: 11px; }
+    footer strong { color: var(--gold); font-weight: 700; }
+    .back-top { display: inline-block; margin-top: 9px; color: var(--white); text-underline-offset: 3px; }
+    @media (max-width: 800px) {
+      .nav-wrap { align-items: flex-start; flex-direction: column; gap: 12px; }
+      nav { width: 100%; gap: 18px; padding-bottom: 3px; }
+      .hero-inner { grid-template-columns: 1fr; gap: 40px; padding-top: 55px; }
+      .hero-copy { max-width: 700px; }
+      .portrait-wrap { width: min(76%, 330px); }
+      .section-head, .bio-grid { grid-template-columns: 1fr; gap: 20px; }
+      .theme-grid { grid-template-columns: 1fr; }
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .nav-wrap, main { padding-left: 17px; padding-right: 17px; }
+      .hero-inner { padding: 44px 17px 54px; }
+      section { padding: 60px 0; }
+      .works-section { margin: 0 -17px; padding: 60px 17px; }
+      .works-grid, .poem-grid, .source-list { grid-template-columns: 1fr; }
+      .poem-card:last-child { grid-column: auto; }
+      .timeline li { grid-template-columns: 75px 1fr; gap: 12px; padding-left: 27px; }
+      .portrait-wrap { width: min(84%, 310px); }
+      .portrait-note { right: -22px; width: 150px; font-size: 12px; }
+      .hero-meta { gap: 16px; }
+      .hero-meta strong { font-size: 20px; }
+      .pullquote { font-size: 22px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body id="sakums">
+  <header class="topbar">
+    <div class="nav-wrap">
+      <a class="brand" href="#sakums" aria-label="Aspazija — uz sākumu">
+        <span class="brand-mark">A.</span>
+        <span class="brand-text">PANTS &amp; PIKSELIS<span>DZEJNIEKS DIGITĀLAJĀ TĪKLĀ</span></span>
+      </a>
+      <nav aria-label="Galvenā navigācija">
+        <a href="#dzivesstasts">Dzīvesstāsts</a>
+        <a href="#dailrade">Daiļrade</a>
+        <a href="#dzeja">Dzejas izlase</a>
+        <a href="#avoti">Avoti</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Latviešu literatūras personība</span>
+        <h1 id="hero-title">Aspazija</h1>
+        <p class="hero-subtitle">Dzeja, kas meklē brīvību.</p>
+        <p>Viņas vārdos savienojas romantiska izjūta, drosmīgi jautājumi un ticība cilvēka tiesībām būt pašam. Aspazija bija dzejniece, dramaturģe un sabiedriski aktīva personība, kas palīdzēja mainīt latviešu literatūras balsi.</p>
+        <div class="hero-buttons">
+          <a class="btn btn-light" href="#dzivesstasts">Iepazīt Aspaziju <span aria-hidden="true">↘</span></a>
+          <a class="btn btn-outline" href="#dzeja">Lasīt dzeju</a>
+        </div>
+        <div class="hero-meta" aria-label="Svarīgākie fakti">
+          <div><strong>1865–1943</strong><span>Dzīves gadi</span></div>
+          <div><strong>1897</strong><span>Pirmais dzejas krājums</span></div>
+          <div><strong>11+</strong><span>Dzejas krājumi</span></div>
+        </div>
+      </div>
+      <div class="portrait-wrap">
+        <div class="portrait-frame">
+          <img id="aspazija-portrait"
+               src="https://zinas.nra.lv/_mm/photos/2015-03/1440px/120029_782fe2d449.jpg"
+               alt="Aspazijas vēsturiska portreta fotogrāfija, uzņemta Jelgavā 1903. gadā; fotogrāfs Osvalds Lange"
+               loading="eager" decoding="async" referrerpolicy="no-referrer"
+               onerror="if (!this.dataset.fallbackTried) { this.dataset.fallbackTried = '1'; this.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2zSj4iJAl6uXovhzEDJjVDDjT1SwEaiVEdPgz9R4hH3d7TwANrqlrgHrx&amp;s=10'; } else { this.style.display = 'none'; this.parentElement.classList.add('portrait-missing'); }">
+        </div>
+        <div class="portrait-note">Aspazija, Jelgava, 1903.<span>Fotogrāfs Osvalds Lange · Neatkarīgās arhīvs</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section id="dzivesstasts">
+      <div class="section-head">
+        <div><span class="section-number">01 / Dzīve</span><h2 class="section-title">Dzīvesstāsts un laikmets</h2></div>
+        <p class="section-intro">Aspazija dzīvoja laikā, kad latviešu sabiedrībā mainījās priekšstati par izglītību, cilvēka brīvību un sievietes vietu sabiedrībā. Viņas literatūra kļuva par vienu no šīs pārmaiņu kustības spilgtākajām balsīm.</p>
+      </div>
+      <div class="bio-grid">
+        <div class="bio-copy">
+          <p><strong>Aspazija</strong> ir Elzas Rozenbergas (pēc laulībām — Elzas Pliekšānes) literārais pseidonīms. Viņa piedzima 1865. gada 16. martā Daukšās, Zaļenieku pagastā. Mācījās Zaļās muižas pagastskolā un skolās Jelgavā, kur ieguva plašāku izglītību un iepazina vācu un krievu valodu kultūrvidi.</p>
+          <p>Deviņdesmitajos gados Aspazija strādāja par mājskolotāju, vēlāk — par dramaturģi Rīgas Latviešu biedrībā un laikraksta <em>“Dienas Lapa”</em> redakcijā. Viņa iesaistījās Jaunās strāvas kustībā, kas aicināja domāt par sabiedrības attīstību, vienlīdzību un indivīda tiesībām. Viņas agrīnā dzeja un lugas atklāti pauda cilvēka pašcieņu un vēlmi dzīvot saskaņā ar savu pārliecību.</p>
+          <p>1905. gada politisko notikumu laikā Aspazija kopā ar Raini devās trimdā uz Šveici. Pēc atgriešanās Latvijā 1920. gadā viņa darbojās Satversmes sapulcē un iesaistījās diskusijās par sieviešu lomu, pilsoņu tiesībām un brīvību. Pēc Raiņa nāves 1929. gadā viņa rūpējās par viņa literārā mantojuma saglabāšanu. Aspazija nomira Rīgā 1943. gada 5. novembrī.</p>
+        </div>
+        <aside>
+          <blockquote class="pullquote">“Cilvēkam jābūt tiesībām uz savu balsi — un drosmei tajā runāt.”<cite>Šīs mājaslapas idejas kopsavilkums, nevis Aspazijas citāts</cite></blockquote>
+          <ol class="timeline">
+            <li><time>1865–1884</time><div><h3>Bērnība un izglītība</h3><p>Dzimusi Daukšās; mācījusies skolās Zaļeniekos un Jelgavā.</p></div></li>
+            <li><time>1890. gadi</time><div><h3>Literārā balss kļūst dzirdama</h3><p>Strādā teātrī un presē; 1897. gadā iznāk dzejoļu krājums “Sarkanās puķes”.</p></div></li>
+            <li><time>1905–1920</time><div><h3>Trimda Šveicē</h3><p>Dzīvo ārpus Latvijas, turpina literāro darbu un 1920. gadā atgriežas dzimtenē.</p></div></li>
+            <li><time>1920–1943</time><div><h3>Sabiedriskais darbs un mantojums</h3><p>Darbojas Satversmes sapulcē un rūpējas par Raiņa rakstniecības mantojumu.</p></div></li>
+          </ol>
+        </aside>
+      </div>
+      <div class="theme-grid" aria-label="Aspazijas nozīme literatūrā">
+        <article class="theme-card"><div class="theme-icon">✳</div><h3>Sievietes balss</h3><p>Viņas varones tiecas pēc patstāvības, pašcieņas un tiesībām pašām lemt par savu dzīvi.</p></article>
+        <article class="theme-card"><div class="theme-icon">✦</div><h3>Jaunā strāva</h3><p>Rakstniecībā ienāk sabiedriski nozīmīgi jautājumi: brīvība, vienlīdzība un veco priekšstatu pārskatīšana.</p></article>
+        <article class="theme-card"><div class="theme-icon">❋</div><h3>Romantisms un pārdomas</h3><p>Dzejā sastopami sapņu, ilgu, dabas, mīlestības, ideāla un dzīves jēgas meklējumi.</p></article>
+      </div>
+    </section>
+
+    <section class="works-section" id="dailrade">
+      <div class="works-inner">
+        <div class="section-head">
+          <div><span class="section-number">02 / Daiļrade</span><h2 class="section-title">Dzejas krājumi</h2></div>
+          <p class="section-intro">Aspazija publicēja dzeju vairāk nekā četrus gadu desmitus. Krājumi parāda gan agrīnās dzejas nemieru un tieksmi pēc pārmaiņām, gan vēlākas, personiskākas atmiņu un pārdomu noskaņas.</p>
+        </div>
+        <div class="works-grid">
+          <article class="work-card"><span class="work-year">1897 · Agrīnā dzeja</span><h3>Sarkanās puķes</h3><p>Spēcīga, pacilāta balss; brīvības, iekšējas neatkarības un pārmaiņu motīvi. Krājums, ar kuru Aspazija spilgti ienāca literatūrā.</p></article>
+          <article class="work-card"><span class="work-year">1904 · Pārdomas</span><h3>Dvēseles krēsla</h3><p>Smalkāka, skumjāka intonācija un iekšējās pasaules izpēte; atmiņas un ilgas iegūst lielu nozīmi.</p></article>
+          <article class="work-card"><span class="work-year">1910 · Liriska biogrāfija</span><h3>Saulains stūrītis</h3><p>Atmiņu pilns skatījums uz bērnības pasauli — tās gaišumu, jūtīgumu un pirmo pieredzi.</p></article>
+          <article class="work-card"><span class="work-year">1911 · Liriska biogrāfija</span><h3>Ziedu klēpis</h3><p>Turpina autobiogrāfisko ieceri, aplūkojot jaunības izjūtas, sapņus un personības veidošanos.</p></article>
+          <article class="work-card"><span class="work-year">1920 · Atgriešanās</span><h3>Izplesti spārni</h3><p>Agrāk rakstītu dzejoļu izlase, kurā saglabājas tieksme pēc plašuma, ideāla un gara brīvības.</p></article>
+          <article class="work-card"><span class="work-year">1923 · Atmiņas</span><h3>Raganu nakts</h3><p>Liriskās biogrāfijas noslēdzošā daļa; autobiogrāfiski motīvi mijas ar simboliem un iztēles spēku.</p></article>
+          <article class="work-card"><span class="work-year">1926 · Vēlīnā dzeja</span><h3>Trejkrāsaina saule</h3><p>Krājums, kurā personiskās izjūtas savienojas ar plašākiem filozofiskiem un idejiskiem meklējumiem.</p></article>
+          <article class="work-card"><span class="work-year">1936 · Vēlīnā dzeja</span><h3>Kaisītās rozes</h3><p>Patriotiskas un himniskas noskaņas; šis krājums atspoguļo arī sarežģītās attiecības starp dzejnieku un laikmeta politiku.</p></article>
+          <article class="work-card"><span class="work-year">1942 · Mūža nogale</span><h3>Zem vakara zvaigznes</h3><p>Vēlīns krājums, kurā jūtama pieredze, dzīves pārdomas un laika ritējuma izjūta.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="dzeja">
+      <div class="section-head">
+        <div><span class="section-number">03 / Dzejas izlase</span><h2 class="section-title">Pieci dzejoļi, piecas noskaņas</h2></div>
+        <p class="section-intro">Izlasē izvēlēti darbi, kuros Aspazijas dzejā atklājas gan romantiskā tieksme pēc ideālas pasaules, gan maigums, atmiņas, humors un pašapziņa. Atver katru kartīti, lai lasītu visu dzejoli.</p>
+      </div>
+      <div class="poem-topline"><p>Izvēles pamatojums ir veidots šīs mājaslapas vajadzībām.</p><span class="poem-count">5 DARBI</span></div>
+      <div class="poem-grid">
+        <article class="poem-card">
+          <span class="poem-kicker">01 · Ilgas un ideāls</span><h3>Mēness starus stīgo</h3>
+          <p class="why">Izvēlēts, jo tēli — mēness, zvaigznes un gaismas straume — rada romantisku ceļojuma sajūtu un pauž vēlmi atrast laimīgu, garīgu tuvību.</p>
+          <details><summary>Lasīt visu dzejoli</summary><div class="verse">Mēness starus stīgo
+Dzelmē dzidrajā.
+It kā balsis mani
+Turpu aicina.
+
+Nāc man līdzi, dodies
+Plašā tālumā,
+Ļaujies sevi aizvest
+Nāru laiviņā.
+
+Buras tīra zelta,
+Irklis sudrabvīts,
+Zvaigznes ceļu rāda,
+Vada auseklīt’s.
+
+Nāc man līdz, es zinu
+Malu laimīgu,
+Tur, kur mēness sastop
+Saules meitiņu.
+
+Tur, kur stars ar staru
+Liesmās vienojas,
+Tur, kur gars ar garu
+Jūtās satiekas.
+
+Zemes ilgošanās
+Tur kā migla klīst,
+Mūžam nebeidzama
+Gaismas straume līst.</div></details>
+        </article>
+        <article class="poem-card">
+          <span class="poem-kicker">02 · Zaudējums un atmiņas</span><h3>Sapņu tālumā</h3>
+          <p class="why">Izvēlēts, jo dzejolī sapnis kļūst par skaistu, bet neaizsniedzamu mērķi. Īsās rindas un atkārtojumi pastiprina ilgu un zaudējuma sajūtu.</p>
+          <details><summary>Lasīt visu dzejoli</summary><div class="verse">Sapņu tālumā,
+Staru spožumā,
+Zvaigzne dziestošā,
+Mana laimība.
+
+Rokas izstiepju,
+Gaužos, pielūdzu,
+Atsaukt nespēju
+To, ko zaudēju.
+
+Tvaikos vītušas,
+Dublos samītas
+Dvēseles drebošās,
+Baltās lapiņas.
+
+Smiekli pārkliedza,
+Troksnī izgaisa,
+Nav vairs dzirdama
+Saldā meldija —
+
+Sapņu tālumā,
+Staru spožumā,
+Nepielūdzama!
+Neatsaucama!</div></details>
+        </article>
+        <article class="poem-card">
+          <span class="poem-kicker">03 · Bērnības iztēle</span><h3>Circenīša Ziemassvētki</h3>
+          <p class="why">Izvēlēts, jo aiz mātes mierinošajiem vārdiem slēpjas arī trūkums un rūpes. Fantāzijas pasaule palīdz bērnam ieraudzīt cerību pat grūtos apstākļos.</p>
+          <details><summary>Lasīt visu dzejoli</summary><div class="verse">Dzied circenītis
+Aizkrāsnē,
+Nāc, puisīt, mātei
+Azotē.
+
+Ak, neprasi! Nav
+Maizītes,
+Skat, skat, tur laukā
+Zvaigznītes!
+
+Lai citiem riekstiņš,
+Pīrādziņš,
+Mums, lūk, tur logā
+Mēnestiņš!
+
+Tāds mīļš, balts, apaļš
+Mēnestiņš,
+Tik spoži citiem
+Nespīd viņš.
+
+Beidz raudāt, dēliņ,
+Rimsties nu,
+Es tad ko jauku
+Stāstīšu:
+
+Mēs runci ratos
+Iejūgsim,
+Uz mēnestiņu
+Nobrauksim.
+
+Tur būs tev spožas
+Spēlītes,
+Būs runcim zelta
+Pelītes.
+
+Tev iedos sidrab’
+Šaut’nīti
+Un vēl ar zelta
+Gailīti.
+
+Pie sāniem būs tev
+Zobentiņš
+Un rokās sarkans
+Karodziņš.
+
+Miedz, puisīt, aizmiedz
+Azotē
+Kā circenītis
+Aizkrāsnē.</div></details>
+        </article>
+        <article class="poem-card">
+          <span class="poem-kicker">04 · Bērnība un fantāzija</span><h3>Pasaciņa</h3>
+          <p class="why">Izvēlēts, jo mazā kumeliņa un pasakas tēls atgādina, cik ātri paiet bērnības sapņi un kā atmiņas ļauj tos atkal piedzīvot.</p>
+          <details><summary>Lasīt visu dzejoli</summary><div class="verse">Mazā, sirmā kumeliņā
+Jāj pa ceļu pasaciņa.
+
+Ātri, ātri steidzas viņa,
+Rokā zelta pātadziņa.
+
+Jāj un jāj un neapstājas,
+Zemes virsū nav tai mājas —
+
+Līdzko jaunie sapņi beidzas,
+Viņai projām jāaizsteidzas.
+
+Ilgi, šķiet man, projām biju;
+Nu es atkal ieraudzīju:
+
+Mazā, sirmā kumeliņā
+Jāj pa ceļu pasaciņa.
+
+Sidraboti pakaviņi,
+Zili puķu iemauktiņi;
+
+Pavadā kā pērles sienas
+Senās, mīļās bērnu dienas.
+
+Jāj un jāj un neapstājas,
+Zemes virsū nav tai mājas.</div></details>
+        </article>
+        <article class="poem-card">
+          <span class="poem-kicker">05 · Raksturs un pašapziņa</span><h3>Tāda es esmu</h3>
+          <p class="why">Izvēlēts, jo liriskā varone pati raksturo savu enerģiju, asumu un neatkarību. Dzejolis sasaucas ar Aspazijai raksturīgo spēcīgas personības tēlu.</p>
+          <details><summary>Lasīt visu dzejoli</summary><div class="verse">Tik jautra kā burbuļu avotiņš,
+Tik sēra kā pāri tam vītoliņš,
+Deg acīs zaļš spītības uguntiņš,
+Iz pirkstu galiem skrej zibentiņš —
+
+Jā, tāda es esmu, to zinat!
+Nu nākat un manu mīklu minat!
+
+Starp ikdienas rūpju skārieniem,
+Starp pārdzīvotiem uzskatiem,
+Es esmu kā roze starp rāceņiem,
+Kā uguns star sausiem žagariem —
+
+Jā, tāda es esmu, to zinat!
+Nu nākat sev pirkstus apdedzināt!</div></details>
+        </article>
+      </div>
+      
+    </section>
+
+    <section id="avoti">
+      <div class="section-head">
+        <div><span class="section-number">04 / Pētniecība</span><h2 class="section-title">Izmantotie avoti</h2></div>
+        <p class="section-intro">Biogrāfiskie fakti, krājumu nosaukumi un dzejoļu teksti apkopoti no tālāk norādītajiem avotiem. Attēla autorība un izcelsme jānorāda līdzās pašam attēlam, tāpēc portreta paraksts ir pievienots lapas sākumā.</p>
+      </div>
+      <ul class="source-list">
+        <li><a href="https://enciklopedija.lv/skirklis/31832" target="_blank" rel="noopener noreferrer">Nacionālā enciklopēdija — Aspazija</a><span>Biogrāfija, darbība, literārais konteksts un nozīmīgākie darbi.</span></li>
+        <li><a href="https://www.literatura.lv/lv/personas/aspazija" target="_blank" rel="noopener noreferrer">Literatura.lv — Aspazija</a><span>Biogrāfija, dzīvesvietas, dzejas krājumu bibliogrāfija un daiļrades skaidrojums.</span></li>
+        <li><a href="https://jugendstils.riga.lv/muzeja_lietu_stasti/aspazija/" target="_blank" rel="noopener noreferrer">Rīgas Jūgendstila centrs — Aspazijas darbu izdevumi</a><span>Informācija par krājuma “Sarkanās puķes” izdošanu un tā laikmeta nozīmi.</span></li>
+        <li><a href="https://dom.lndb.lv/data/obj/60976.html" target="_blank" rel="noopener noreferrer">Latvijas Nacionālā bibliotēka — “Sarkanās puķes” (1897)</a><span>1897. gada izdevuma bibliogrāfiskais apraksts.</span></li>
+        <li><a href="https://www.lsm.lv/raksts/kultura/literatura/aspazijai-150.-janis-dizgalvis-aspazija-maca-saskatit-dieva-doto-lietu-kartibu.a121147/" target="_blank" rel="noopener noreferrer">LSM — par dzejoli “Mēness starus stīgo”</a><span>Dzejoļa teksts un skaidrojums par tā vietu Aspazijas dramaturģijā.</span></li>
+        <li><a href="https://www.lieder.net/lieder/get_text.html?TextId=628130" target="_blank" rel="noopener noreferrer">LiederNet — “Sapņu tālumā”</a><span>Dzejoļa teksts un autorības norāde.</span></li>
+        <li><a href="https://www.e-biblioteka.lv/circenisa-ziemassvetki/" target="_blank" rel="noopener noreferrer">E-bibliotēka — “Circenīša Ziemassvētki”</a><span>Dzejoļa teksts.</span></li>
+        <li><a href="https://www.lsm.lv/raksts/kultura/literatura/aspazijai-150.-dace-bluke-pasacinas-saturs-ir-lidzigs-tautasdziesmai.a120966/" target="_blank" rel="noopener noreferrer">LSM — “Pasaciņa”</a><span>Dzejoļa teksts un komentārs par tā tēliem.</span></li>
+        <li><a href="https://skolenam.lv/lv/darbi/literatura/latviesu-autoru-dzeja-un-dzejoli/10" target="_blank" rel="noopener noreferrer">Skolenam.lv — Aspazijas dzeja</a><span>Dzejoļu “Pasaciņa” un “Tāda es esmu” teksts.</span></li>
+        <li><a href="https://nra.lv/kultura/137512-kultura-vai-tiesam-aspazija-atklaja-raini.htm" target="_blank" rel="noopener noreferrer">Neatkarīgā — Aspazijas 1903. gada portrets</a><span>Fotogrāfija uzņemta Jelgavā; autors Osvalds Lange, oriģināls glabājas RMM, attēls publicēts Neatkarīgās arhīvā.</span></li>
+        <li><a href="https://lr2.lsm.lv/lv/raksts/muzikju-jubilejas/atceroties-dzejnieci-aspaziju.a49684/" target="_blank" rel="noopener noreferrer">Latvijas Radio — “Atceroties dzejnieci Aspaziju”</a><span>Raksts par dzejnieces dzīvi un piemiņu.</span></li>
+      </ul>
+    </section>
+  </main>
+  <footer>
+    <div><strong>Aspazija — dzeja, kas meklē brīvību</strong></div>
+    <div>Starpdisciplinārais projekts “Pants un pikselis: dzejnieks digitālajā tīklā” · Datorika un literatūra</div>
+    <a class="back-top" href="#sakums">↑ Atgriezties sākumā</a>
+  </footer>
+</body>
+</html>
